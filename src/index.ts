@@ -14,9 +14,15 @@ interface Animation {
 
 type AddedAnimation = Omit<Animation, 'order'> & Partial<Pick<Animation, 'order'>>
 
-let animationFramer: AnimationFramer | null = null;
-
 export default class AnimationFramer {
+  private static instance: AnimationFramer | null = null;
+  static getInstance() {
+    if (!AnimationFramer.instance) {
+      AnimationFramer.instance = new AnimationFramer();
+    }
+    return AnimationFramer.instance;
+  }
+
   private time: number = 0;
   private deltaTime: number = 0;
   private lastTimestamp: number = 0;
@@ -24,11 +30,6 @@ export default class AnimationFramer {
   private animationCount: number = 0;
   private animationId: number|null = null;
   private animations: Animation[] = [];
-
-  constructor() {
-    if(animationFramer) return animationFramer;
-    animationFramer = this;
-  }
 
   get animationList() { return this.animations }
 
