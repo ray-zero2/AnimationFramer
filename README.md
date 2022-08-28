@@ -1,2 +1,3 @@
 # Animation Framer
-JavaScript/TypeScript request-animation-framer manager
+JavaScript/TypeScript request-animation-frame manager
+🚧: under construction

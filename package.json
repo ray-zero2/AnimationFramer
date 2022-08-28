@@ -1,5 +1,5 @@
 {
-  "name": "animation-framer",
+  "name": "@ray-zero2/animation-framer",
   "moduleName": "animation-framer",
   "license": "MIT",
   "author": "ray-zero2",
@@ -15,13 +15,17 @@
     "build": "rm -rf dist && bili && npm run types",
     "types": "tsc --build tsconfig.types.json"
   },
-  "homepage": "https://github.com/ray-zero2/AnimationFramer",
+  "homepage": "https://github.com/ray-zero2/animation-framer",
   "bugs": {
-    "url": "https://github.com/ray-zero2/AnimationFramer/issues"
+    "url": "https://github.com/ray-zero2/animation-framer/issues"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ray-zero2/AnimationFramer"
+    "url": "git://github.com/ray-zero2/animation-framer.git"
   },
   "devDependencies": {
     "bili": "^5.0.5",
