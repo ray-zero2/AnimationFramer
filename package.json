@@ -1,0 +1,39 @@
+{
+  "name": "animation-framer",
+  "moduleName": "animation-framer",
+  "license": "MIT",
+  "author": "ray-zero2",
+  "version": "0.0.1",
+  "description": "request animation frame manager",
+  "main": "dist/index.es.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && bili && npm run types",
+    "types": "tsc --build tsconfig.types.json"
+  },
+  "homepage": "https://github.com/ray-zero2/AnimationFramer",
+  "bugs": {
+    "url": "https://github.com/ray-zero2/AnimationFramer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ray-zero2/AnimationFramer"
+  },
+  "devDependencies": {
+    "bili": "^5.0.5",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
+    "rollup-plugin-typescript2": "^0.33.0",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {}
+}
