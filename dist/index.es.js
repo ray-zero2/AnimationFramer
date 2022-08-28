@@ -1,10 +1,9 @@
 /*!
  * AnimationFramer v0.0.1
- * https://github.com/ray-zero2/AnimationFramer
+ * https://github.com/ray-zero2/animation-framer
  * @license MIT
  * Copyright ray-zero2
  */
-var animationFramer = null;
 var AnimationFramer = function AnimationFramer() {
   this.time = 0;
   this.deltaTime = 0;
@@ -13,11 +12,17 @@ var AnimationFramer = function AnimationFramer() {
   this.animationCount = 0;
   this.animationId = null;
   this.animations = [];
-  if (animationFramer) { return animationFramer; }
-  animationFramer = this;
 };
 
 var prototypeAccessors = { animationList: { configurable: true },currentTime: { configurable: true } };
+
+AnimationFramer.getInstance = function getInstance () {
+  if (!AnimationFramer.instance) {
+    AnimationFramer.instance = new AnimationFramer();
+  }
+
+  return AnimationFramer.instance;
+};
 
 prototypeAccessors.animationList.get = function () {
   return this.animations;
@@ -109,5 +114,6 @@ AnimationFramer.prototype.sortAnimationsArray = function sortAnimationsArray () 
 };
 
 Object.defineProperties( AnimationFramer.prototype, prototypeAccessors );
+AnimationFramer.instance = null;
 
 export { AnimationFramer as default };

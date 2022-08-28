@@ -10,13 +10,14 @@ interface Animation {
 }
 declare type AddedAnimation = Omit<Animation, 'order'> & Partial<Pick<Animation, 'order'>>;
 export default class AnimationFramer {
+    private static instance;
+    static getInstance(): AnimationFramer;
     private time;
     private deltaTime;
     private lastTimestamp;
     private animationCount;
     private animationId;
     private animations;
-    constructor();
     get animationList(): Animation[];
     get currentTime(): number;
     add(animation: AddedAnimation): this;
