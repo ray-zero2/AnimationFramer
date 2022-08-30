@@ -1,7 +1,7 @@
 # Animation Framer
 JavaScript/TypeScript request-animation-frame manager
 
-🚧: under construction
+⚠️ : Currently in alpha. There may be destructive changes.
 
 
 ## install
