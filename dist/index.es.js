@@ -7,8 +7,7 @@
 var AnimationFramer = function AnimationFramer() {
   this.time = 0;
   this.deltaTime = 0;
-  this.lastTimestamp = 0; // private fps: number = 60;
-
+  this.lastTimestamp = 0;
   this.animationCount = 0;
   this.animationId = null;
   this.animations = [];
@@ -24,15 +23,27 @@ AnimationFramer.getInstance = function getInstance () {
   return AnimationFramer.instance;
 };
 
+AnimationFramer.getLerpCoeff = function getLerpCoeff (coeff, deltaTime, targetFps) {
+    if ( targetFps === void 0 ) targetFps = 60;
+
+  var frameStretch = deltaTime * targetFps;
+  var adjustedCoeff = 1 - Math.pow(1 - coeff, frameStretch);
+  return adjustedCoeff;
+};
+
 prototypeAccessors.animationList.get = function () {
   return this.animations;
 };
 
 prototypeAccessors.currentTime.get = function () {
   return this.time;
-}; // get targetFPS() { return this.fps }
-// set targetFPS(value: number) { this.fps = value }
+};
 
+AnimationFramer.prototype.getLerpCoeff = function getLerpCoeff (coeff, targetFPS) {
+    if ( targetFPS === void 0 ) targetFPS = 60;
+
+  return AnimationFramer.getLerpCoeff(coeff, this.deltaTime, targetFPS);
+};
 
 AnimationFramer.prototype.add = function add (animation) {
   var _a;
@@ -101,7 +112,7 @@ AnimationFramer.prototype.animate = function animate () {
   this.deltaTime = (timestamp - this.lastTimestamp) * 0.001;
   this.time += this.deltaTime;
   this.animations.forEach(function (animation) {
-    animation.callback({
+    animation.update({
       deltaTime: this$1$1.deltaTime,
       time: this$1$1.time
     });

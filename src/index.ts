@@ -9,13 +9,14 @@ type AnimationFunction = (props: IAnimationProps) => void;
 interface Animation {
   id: string;
   order: number;
-  callback: AnimationFunction;
+  update: AnimationFunction;
 }
 
 type AddedAnimation = Omit<Animation, 'order'> & Partial<Pick<Animation, 'order'>>
 
 export default class AnimationFramer {
   private static instance: AnimationFramer | null = null;
+
   static getInstance() {
     if (!AnimationFramer.instance) {
       AnimationFramer.instance = new AnimationFramer();
@@ -23,10 +24,15 @@ export default class AnimationFramer {
     return AnimationFramer.instance;
   }
 
+  static getLerpCoeff(coeff: number, deltaTime: number, targetFps: number = 60) {
+    const frameStretch  = deltaTime * targetFps;
+    const adjustedCoeff = 1 - (1 - coeff) ** frameStretch;
+    return adjustedCoeff;
+  }
+
   private time: number = 0;
   private deltaTime: number = 0;
   private lastTimestamp: number = 0;
-  // private fps: number = 60;
   private animationCount: number = 0;
   private animationId: number|null = null;
   private animations: Animation[] = [];
@@ -35,10 +41,11 @@ export default class AnimationFramer {
 
   get currentTime() { return this.time }
 
-  // get targetFPS() { return this.fps }
-  // set targetFPS(value: number) { this.fps = value }
+  getLerpCoeff(coeff:number, targetFPS: number = 60): number {
+    return AnimationFramer.getLerpCoeff(coeff, this.deltaTime, targetFPS);
+  }
 
-  add(animation: AddedAnimation) {
+  add(animation: AddedAnimation): this {
     const needsRestarting = this.animationId !== null;
     if(needsRestarting) this.stop();
     const order = animation.order ?? this.animationCount;
@@ -49,7 +56,7 @@ export default class AnimationFramer {
     return this;
   }
 
-  remove(id: string) {
+  remove(id: string): this {
     const needsRestarting = this.animationId !== null;
     if(needsRestarting) this.stop();
     const newAnimations =
@@ -60,31 +67,31 @@ export default class AnimationFramer {
     return this;
   }
 
-  removeAll() {
+  removeAll(): this {
     this.stop();
     this.animations = [];
     this.animationCount = 0;
     return this;
   }
 
-  start() {
+  start(): void {
     this.lastTimestamp = performance.now();
     this.animate();
   }
 
-  stop() {
+  stop(): void {
     if(this.animationId) cancelAnimationFrame(this.animationId);
     this.lastTimestamp = 0;
     this.animationId = null;
   }
 
-  reset(needsAllRemoving: boolean = true) {
+  reset(needsAllRemoving: boolean = true): void {
     this.stop();
     this.time = 0;
     if(needsAllRemoving) this.removeAll();
   }
 
-  reorder() {
+  reorder(): void {
     this.sortAnimationsArray();
     const renumbered =
       this.animations
@@ -96,18 +103,18 @@ export default class AnimationFramer {
     this.animations = renumbered;
   }
 
-  protected animate() {
+  protected animate(): void {
     const timestamp = performance.now();
     this.animationId = requestAnimationFrame(this.animate.bind(this));
     this.deltaTime = (timestamp - this.lastTimestamp) * 0.001;
     this.time += this.deltaTime
     this.animations.forEach(animation => {
-      animation.callback({ deltaTime: this.deltaTime, time: this.time });
+      animation.update({ deltaTime: this.deltaTime, time: this.time });
     });
     this.lastTimestamp = timestamp;
   }
 
-  private sortAnimationsArray() {
+  private sortAnimationsArray(): void {
     this.animations.sort((a, b) => a.order - b.order);
   }
 }
