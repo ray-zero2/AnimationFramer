@@ -40,8 +40,10 @@ animationFramer
 
       // Coefficients that are not affected by fps can be obtained.
       // baseFPS is 60;
-      const adjustedCoeff60 = animationFramer.getLerpCoeff(0,2);
-      const adjustedCoeff120 = animationFramer.getLerpCoeff(0,2, 120);
+      const adjustedCoeff60 = animationFramer.getLerpCoeff(coeff);
+      
+      const baseFPS = 120;
+      const adjustedCoeff120 = animationFramer.getLerpCoeff(coeff, baseFPS);
     }
   });
 
