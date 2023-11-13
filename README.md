@@ -1,7 +1,15 @@
 # Animation Framer
 JavaScript/TypeScript request-animation-frame manager
 
-⚠️ : Currently in alpha. There may be breaking changes.
+⚠️⚠️⚠️
+
+integrated to https://github.com/craf-te/filmer
+
+
+Animation Framer is no longer maintained.
+thank you.
+
+⚠️⚠️⚠️
 
 
 ## install
